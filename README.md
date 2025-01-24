@@ -57,18 +57,12 @@ git clone https://github.com/ifeanyiro9/containerized-sports-api.git
 cd containerized-sports-api
 ```
 ### **Create ECR Repo**
-```bash
-aws ecr create-repository --repository-name sports-api --region us-east-1
-```
+
+<img src =images\1-aws-cli-commands.png>
 
 ### **Authenticate Build and Push the Docker Image**
-```bash
-aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com
 
-docker build --platform linux/amd64 -t sports-api .
-docker tag sports-api:latest <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/sports-api:sports-api-latest
-docker push <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/sports-api:sports-api-latest
-```
+<img src="images\4-docker-build-push.png">
 
 ### **Set Up ECS Cluster with Fargate**
 1. Create an ECS Cluster:
@@ -111,6 +105,12 @@ docker push <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/sports-api:sports-a
 - After deploying the ECS service, note the DNS name of the ALB (e.g., sports-api-alb-<AWS_ACCOUNT_ID>.us-east-1.elb.amazonaws.com)
 - Confirm the API is accessible by visiting the ALB DNS name in your browser and adding /sports at end (e.g, http://sports-api-alb-<AWS_ACCOUNT_ID>.us-east-1.elb.amazonaws.com/sports)
 
+<img src="images\6-api.png">
+
+
+<img src="images\5-api-pretty-print.png">
+
+
 ### **Configure API Gateway**
 1. Create a New REST API:
 - Go to API Gateway Console → Create API → REST API
@@ -131,6 +131,7 @@ docker push <AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/sports-api:sports-a
 ```bash
 curl https://<api-gateway-id>.execute-api.us-east-1.amazonaws.com/prod/sports
 ```
+<img src="images\7-test-api.png">
 
 ### **What We Learned**
 Setting up a scalable, containerized application with ECS
